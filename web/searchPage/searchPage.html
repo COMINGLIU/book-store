@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../module/module.css">
+    <link rel="stylesheet" href="../common/reset.css">
+    <link rel="stylesheet" href="searchPage.css">
+    <title>图书城</title>
+    <script>
+        function ajaxPost(url,data,callback) {
+            var xmlhttp;
+            try{
+                xmlhttp = new XMLHttpRequest();
+            }catch(e){
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                console.log(xmlhttp.readyState);
+                console.log(xmlhttp.status);
+                if(xmlhttp.readyState==4&&xmlhttp.status==200) {
+                    var data = xmlhttp.response;
+                    callback&&callback(data);
+                }
+            }
+            xmlhttp.open("POST",url,true);
+            xmlhttp.setRequestHeader("Content-Type","applx-www-form-urlencoded");
+            xmlhttp.send(data);
+        }   
+        // 设置localStorage
+        function setLocal(key,value) {
+            window.localStorage.setItem(key,value);
+        }
+        //保存密码
+        function getLocal() {
+            return {
+                username: window.localStorage.getItem("username"),
+                pass: window.localStorage.getItem("pass")
+            }
+        }
+        // 登陆
+        function logging() {
+            try{
+                var ele = {
+                // 用户名
+                oName: document.getElementsByName("name")[0],
+                // 密码
+                oPass: document.getElementsByName("pass")[0],
+                // 弹窗
+                oPop:document.getElementById("pop")
+                };
+                var name = ele.oName.value,
+                    pass = ele.oPass.value,
+                    sendValue;
+                emailReg = name.match(/^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$/g);
+                telReg = name.match(/^1[3|4|5|8]\d{9}$/g);
+                if(emailReg!=null) {
+                    sendValue="buyerEmail";
+                }else if(telReg!=null) {
+                    sendValue="buyerTel";
+                }
+                if(name!==""&&pass!=="") {
+                    ajaxPost("/web/BuyerLoginServlet?",sendValue+"="+name+"&pass="+pass,function(data) {
+                        console.log(data);
+                        switch(data) {
+                            // case "login success":
+                            //     ele.oPop.style.height = "0";
+                            //     ele.oPop.style.border = "0";
+                            //     // document.getElementsByClassName("reg-log")[0].innerHTML = name;
+                            //     var key = document.getElementsByClassName("reg-log")[0];
+                            //     // if(key.innerHTML!="登陆/注册") {
+                            //     //     key.onclick=null;
+                            //     // }
+                            //     setLocal("username",name);
+                            //     setLocal("pass",pass);
+                            //     key.innerHTML = getLocal().username;
+                            //     break;
+                            case "password error":
+                                alert("用户名或密码错误!");
+                                break;
+                            case "user dose not exist":
+                                alert("用户不存在");
+                                break;
+                            case "abnormal":
+                                alert("请输入正确格式");
+                                break;
+                            default: 
+                                ele.oPop.style.height = "0";
+                                ele.oPop.style.border = "0";
+                                // document.getElementsByClassName("reg-log")[0].innerHTML = name;
+                                var key = document.getElementsByClassName("reg-log")[0];
+                                // if(key.innerHTML!="登陆/注册") {
+                                //     key.onclick=null;
+                                // }
+                                setLocal("username",name);
+                                setLocal("pass",pass);
+                                setLocal("buyerNum",data);
+                                key.innerHTML = getLocal().username;
+                                break;
+                        }
+                    });
+                }
+            }catch(e) {
+                throw new Error("error");
+            }
+        }
+        // 注册
+        function regging() {
+            var ele = {
+                // 昵称
+                oBuyerName: document.querySelector("#reg .buyerName"),
+                // 电话号码
+                oBuyerTel: document.querySelector("#reg .buyerTel"),
+                // 邮箱
+                oBuyerEmail: document.querySelector("#reg .buyerEmail"),
+                // 地址
+                oBuyerAddr: document.querySelector("#reg .buyerAddr"),
+                // 密码
+                oPass: document.querySelector("#reg .password"),
+                // 再次确认密码
+                oPassAgain: document.getElementsByName("passAgin")[0],
+                // 弹窗
+                oPop:document.getElementById("pop"),
+                // 注册框
+                oReg: document.querySelector("#reg")
+            };
+            var buyerName = ele.oBuyerName.value,
+                buyerTel = ele.oBuyerTel.value,
+                buyerEmail = ele.oBuyerEmail.value,
+                buyerAddr = ele.oBuyerAddr.value,
+                password = ele.oPass.value,
+                passAgain = ele.oPassAgain.value;
+            if(buyerName!=""&&buyerTel!=""&&buyerEmail!=""&&buyerAddr!=""&&password!=""&passAgain!=""&&password===passAgain) {
+                ajaxPost("/web/BuyerInsertServlet","buyerName="+buyerName+"&buyerTel="+buyerTel+"&buyerEmail="+buyerEmail+"&buyerAddr="+buyerAddr+"&password="+password,function(data) {
+                    console.log(data);
+                    switch(data) {
+                        case "success":
+                            // var key = document.getElementsByClassName("reg-log")[0];
+                            // key.onclick=null;
+                            // key.innerHTML = name;
+                            ele.oReg.style.height = "0";
+                            ele.oReg.style.border = "0";
+                            ele.oPop.style.cssText = "height:280px;border: 15px rgba(255,255,255,.5) solid;border-radius: 10px;";
+                            break;
+                        case "user have exised":
+                            alert("用户已存在");
+                            break;
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="top">
+            <img src="../imgs/top.png" alt="置顶" width="100%">
+        </div>
+        <div id="bot">
+            <img src="../imgs/top.png" alt="置底" width="100%">
+        </div>
+        <div id="noServer">
+            <span>没有对应的书籍，请尝试更换关键词或搜索其他书籍</span>
+        </div>
+        <div id="pop">
+            <p>登录注册</p>
+            <form action="" method="post" onsubmit="return false;">
+                <input type="text" name="name" placeholder="手机号码/邮箱" pattern="(^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$)|(^1[3|4|5|8]\d{9}$)" required>
+                <input type="password" name="pass" placeholder="密码" required>
+                <input type="submit" value="登陆" name="sub" onclick="logging()">
+                <input type="button" value="注册" name="reg">
+                <a href="#" class="passForget">忘记密码</a>
+                <div class="close">x</div>
+            </form>
+        </div>
+        <div id="reg">
+            <p>注册</p>
+            <form action="" method="post" onsubmit="return false">
+                <input type="text" name="buyerName" class="buyerName" placeholder="昵称" required>
+                <input type="text" name="buyerTel" class="buyerTel" placeholder="手机号码" pattern="(^1[3|4|5|8]\d{9}$)" required>
+                <input type="email" name="buyerEmail" class="buyerEmail" placeholder="邮箱" pattern="(^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$)" required>
+                <input type="text" name="buyerAddr" class="buyerAddr" placeholder="地址（方便我们把商品邮寄给您）">
+                <input type="password" name="password" class="password" placeholder="密码" required>
+                <input type="password" name="passAgin" class="passAgain" placeholder="确认密码" required>
+                <input type="submit" value="注册" name="subReg" onclick = "regging()">
+                <input type="button" value="取消" name="cancel">
+                <div class="close">x</div>
+                <div class="prompt">! 密码不一致</div>
+            </form>
+        </div>
+        <div id="header">
+            <div class="logo"><a href="../index.html">logo</a></div>
+            <div class="search">
+                <div class="placeholder">书名</div>
+                <input type="text" name="searchBox" class="searchBox">
+                <ul class="searchClass">
+                    <li>书名</li>
+                    <li>作者</li>
+                    <li>出版社</li>
+                    <li>小类</li>
+                </ul>
+            </div>
+            <div class="header-right">
+                <div class="reg-log">登陆/注册</div>
+                <div class="launch">退出登陆</div>
+                <div class="user">个人中心</div>
+                <div class="admin"><a href="../admin/admin.html">管理员</a></div>
+            </div>
+        </div>
+        <div id="content">
+            <ul class="banner-nav">
+                <li class="">计算机
+                    <ul>
+                        <li>编程语言</li>
+                        <li>办公软件</li>
+                        <li>计算机安全</li>
+                        <li>人工智能</li>
+                        <li>操作系统</li>
+                        <li>数据库</li>
+                        <li>软件测试</li>
+                    </ul>
+                </li>
+                <li>艺术文学
+                    <ul>
+                        <li>艺术类考试</li>
+                        <li>艺术史</li>
+                        <li>艺术理论与评论</li>
+                        <li>世界各国艺术概况</li>
+                        <li>艺术拍卖品</li>
+                        <li>舞台艺术戏剧</li>
+                        <li>工艺艺术</li>
+                        <li>民间艺术</li>
+                    </ul>
+                </li>
+                <li>社科图书
+                    <ul>
+                        <li>经典著作</li>
+                        <li>统计学</li>
+                        <li>社会调查</li>
+                        <li>教育</li>
+                        <li>新闻出版社</li>
+                        <li>语言文学</li>
+                        <li>人口学</li>
+                        <li>人才学</li>
+                        <li>人类学</li>
+                        <li>民族学</li>
+                        <li>社会学</li>
+                    </ul>
+                </li>
+                <li>小说图书
+                    <ul>
+                        <li>中国当代小说</li>
+                        <li>科幻小说</li>
+                        <li>魔幻/奇幻/玄幻</li>
+                        <li>武侠</li>
+                        <li>军事</li>
+                        <li>宫廷</li>
+                        <li>社会</li>
+                        <li>中国近代现代小说</li>
+                        <li>中国古典小说</li>
+                        <li>四大名著</li>
+                        <li>港澳小说</li>
+                        <li>穿越/重生/架空</li>
+                        <li>外国小说</li>
+                        <li>侦探/悬疑/推理</li>
+                        <li>惊悚/恐怖</li>
+                    </ul>
+                </li>
+                <li>艺术
+                    <ul>
+                        <li>设计</li>
+                        <li>篆刻</li>
+                        <li>连环画</li>
+                        <li>动画</li>
+                        <li>影视</li>
+                        <li>雕塑</li>
+                        <li>舞蹈</li>
+                    </ul>
+                </li>
+                <li>漫画书
+                    <ul>
+                        <li>日本漫画</li>
+                        <li>大陆漫画</li>
+                        <li>欧美漫画</li>
+                        <li>港台漫画</li>
+                        <li>其他国外漫画</li>
+                        <li>连环画</li>
+                        <li>绘本</li>
+                        <li>爆笑漫画</li>
+                    </ul>
+                </li>
+                <li>作文书
+                    <ul>
+                        <li>中小学作文书</li>
+                        <li>高中作文书</li>
+                    </ul>
+                </li>
+                <li>儿童读物
+                    <ul>
+                        <li>绘本</li>
+                        <li>科普百科</li>
+                        <li>儿童文学</li>
+                        <li>幼儿启蒙</li>
+                        <li>动漫卡通</li>
+                        <li>少儿英语</li>
+                        <li>益智游戏</li>
+                        <li>智力开发</li>
+                    </ul>
+                </li>
+                <li>故事书
+                    <ul>
+                        <li>小说绘</li>
+                        <li>故事会</li>
+                    </ul>
+                </li>
+                <li>古诗文
+                    <ul>
+                        <li>唐宋古诗词</li>
+                        <li>文言文</li>
+                        <li>元曲</li>
+                    </ul>
+                </li>
+                <li>古文
+                    <ul>
+                        <li>甲骨文</li>
+                        <li>金文</li>
+                        <li>籀文</li>
+                    </ul>
+                </li>
+                <li>哲学伦理
+                    <ul>
+                        <li>哲学经典著作</li>
+                        <li>中国哲学</li>
+                        <li>东方哲学</li>
+                        <li>西方哲学</li>
+                        <li>哲学理论与流派</li>
+                        <li>马克思哲学</li>
+                        <li>美学</li>
+                        <li>伦理学</li>
+                        <li>哲学史</li>
+                    </ul>
+                </li>
+                <li>历史人文
+                    <ul class="lastOne">
+                        <li>中国史</li>
+                        <li>民族史</li>
+                        <li>世界史</li>
+                        <li>经典著作</li>
+                        <li>史家名著</li>
+                        <li>通俗说史</li>
+                        <li>地方史志</li>
+                        <li>逸闻野史</li>
+                        <li>历史热点</li>
+                        <li>文物考古</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="books-list">
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="img">
+                        <img src="" alt="img" width="100%">
+                    </div>
+                    <div class="infos">
+                        <h3 class="bookName"></h3>
+                        <p>作者: <span class="writer"></span></p>
+                        <p>译者：<span class="part"></span></p>
+                        <p>出版社：<span class="pubName"></span></p>
+                        <p>版本号：<span class="version"></span></p>
+                        <p>小类名：<span class="smallClassNum"></span></p>
+                        <p>会员价：￥<span class="vipPrice"></span></p>
+                        <p>非会员价：￥<span class="noVipPrice"></span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 分页按钮 -->
+      <!--   <ul class="btns">
+            <li>&lt;</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>&gt;</li>
+        </ul> -->
+        <div id="footer">
+            
+        </div>
+    </div>
+    <script src="../module/module.js"></script>
+    <script src="searchPage.js"></script>
+    <script src="../common/common.js"></script>
+</body>
+</html>
+

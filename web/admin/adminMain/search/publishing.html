@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../common/reset.css">
+    <link rel="stylesheet" type="text/css" href="common/common.css">
+	<title>publishing表格</title>
+	<style type="text/css">
+		table td {
+		  width: 200px;
+		  height: 40px;
+		  line-height: 40px;
+		  text-align: center;
+		  overflow:hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+		}
+		table thead td {
+		  font-size: 22px;
+		}
+		table tbody td {
+		  font-size: 16px;
+		}
+        tr#searchList td {
+            width: 200px;
+            height: 40px;
+        }
+        tr#searchList td:first-child input{
+            border: 1px #ccc solid;
+            font-size: 14px;
+        }
+        .corRed {
+            color: #c00;
+        }
+	</style>
+</head>
+<body>
+	<div id="container">
+        <table>
+            <thead> 
+                <tr>
+                    <td>pubNum</td>
+                    <td>pubName</td>
+                    <td>pubTel</td>
+                    <td>pubPerson</td>
+                    <td>pubEmail</td>
+                    <td>pubAddr</td>
+                    <td>delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr id="searchList">
+                    <td><input type="text" name="pubNum" placeholder="pubNum"></td>
+                    <td>pubName</td>
+                    <td>pubTel</td>
+                    <td>pubPerson</td>
+                    <td>pubEmail</td>
+                    <td>pubAddr</td>
+                    <td><em>编辑</em></td>
+                </tr>
+            </tbody>
+        </table>
+        <ul class="btns">
+            <li>&lt;</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>&gt;</li>
+            <li class="add">添加</li>
+            <li class="delete">删除</li>
+        </ul>
+        <form action="/web/PublishInsertServlet" method="post"> 
+            <ul id="addList">
+                <li class="close">x</li>
+                <li>
+                    <span>pubNum</span>
+                    <input type="text" name="pubNum" required="true">
+                </li>
+                <li>
+                    <span>pubName</span>
+                    <input type="text" name="pubName" required="true">
+                </li>
+                <li>
+                    <span>pubTel</span>
+                    <input type="text" name="pubTel" pattern="^1[3|4|5|8]\d{9}$">
+                </li>
+                <li>
+                    <span>pubPerson</span>
+                    <input type="text" name="pubPerson" pattern="^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$">
+                </li>
+                <li>
+                    <span>pubEmail</span>
+                    <input type="text" name="pubEmail">
+                </li>
+                <li>
+                    <span>pubAddr</span>
+                    <input type="text" name="pubAddr">
+                </li>
+                <li><input type="submit" name="sub"></li>
+            </ul>
+        </form>
+    </div>
+    <script src="../../ajax.js"></script>
+    <script src="common/common.js"></script>
+    <script type="text/javascript">
+        (function(document,window) {
+            var doc = document;
+            var ele = {
+                aTr: doc.querySelectorAll("tbody tr"),
+                aBtns: doc.querySelectorAll(".btns li")
+            };
+            oldPubNum=[];
+            function Publishing() {
+                Common.call(this);
+                // 拉数据
+                this.init();
+                // 分页
+                this.paging();
+                // 更新
+                this.update();
+                // 删除
+                this.delete();
+                // 搜索
+                this.search();
+                // 添加:表单实现
+            }
+            Publishing.prototype=new Common();
+            // 拉数据
+            Publishing.prototype.init = function() {
+                ajax.ajaxGet("/web/NoBookServlet?publishAll="+0,function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    for(var key in data) {
+                        var i = parseInt(key);
+                        var aTd = ele.aTr[i].getElementsByTagName("td");
+                        aTd[0].innerHTML = data[key]["pubNum"];
+                        aTd[1].innerHTML = data[key]["pubName"];
+                        aTd[2].innerHTML = data[key]["pubTel"];
+                        aTd[3].innerHTML = data[key]["pubPerson"];
+                        aTd[4].innerHTML = data[key]["pubEmail"];
+                        aTd[5].innerHTML = data[key]["pubAddr"];
+                        oldPubNum[i]=data[key]["pubNum"];
+                    }
+                }) 
+            };
+            // 分页
+            Publishing.prototype.paging = function() {
+                for(var i=1,len=5;i<len;i++) {
+                    (function(i) {
+                        ele.aBtns[i].onclick = function() {
+                            var sendData = parseInt(ele.aBtns[i].innerHTML)-1;
+                            ajax.ajaxGet("/web/NoBookServlet?publishAll="+sendData,function(data) {
+                                data = JSON.parse(data);
+                                console.log(data);
+                                for(var key in data) {
+                                    var j = parseInt(key);
+                                    var aTd = ele.aTr[j].getElementsByTagName("td");
+                                    aTd[0].innerHTML = data[key]["pubNum"];
+                                    aTd[1].innerHTML = data[key]["pubName"];
+                                    aTd[2].innerHTML = data[key]["pubTel"];
+                                    aTd[3].innerHTML = data[key]["pubPerson"];
+                                    aTd[4].innerHTML = data[key]["pubEmail"];
+                                    aTd[5].innerHTML = data[key]["pubAddr"];
+                                    oldPubNum[j]=data[key]["pubNum"];
+                                }
+                            }) 
+                        }
+                    })(i)
+                }
+            };
+             // 修改
+            Publishing.prototype.update = function() {
+                var ele = {
+                    updBtn: doc.querySelectorAll("td:last-child em"),
+                    aTrs: doc.querySelectorAll("tbody tr"),
+                };
+                window.onload = function() {
+                    for(let i=0,len=ele.updBtn.length;i<len;i++) {
+                        ele.updBtn[i].count=0;
+                        (function(i) {
+                            var aTds = ele.aTrs[i].querySelectorAll("td");
+                            ele.updBtn[i].onclick = function() {
+                                ele.updBtn[i].count+=1;
+                                if(ele.updBtn[i].count%2!=0) {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        if(i==len-1&&j==0){
+                                            var tempValue = aTds[j].getElementsByTagName("input").value;
+                                            aTds[j].value =tempValue;
+                                        }else {
+                                            var tempValue = aTds[j].innerHTML;
+                                            // aTds[j].innerHTML = "<input type='text' value='"+tempValue+"'>";
+                                            aTds[j].innerHTML = j==0?"<input type='text' value='"+tempValue+"' readonly='true' class='corRed'>":"<input type='text' value='"+tempValue+"'>";
+                                        }
+                                        ele.updBtn[i].innerHTML = "确认";
+                                    }
+                                }else {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        var tempValue=aTds[j].getElementsByTagName("input")[0].value;
+                                        // 更改后
+                                        if(i==len-1&&j==0) {
+                                            aTds[j].value = tempValue;
+                                        }else {
+                                            aTds[j].innerHTML = tempValue;
+                                        }
+                                    }
+                                    ele.updBtn[i].innerHTML = "编辑";
+                                    // 发送更新请求
+                                    (function() {
+                                        var sendData = "",pubNum,newPubNum;
+                                        if(i==len-1) {
+                                            pubNum = aTds[0].getElementsByTagName("input")[0].value;
+                                            newPubNum = aTds[0].getElementsByTagName("input")[0].value;
+                                        }else {
+                                            pubNum= oldPubNum[i];
+                                            newPubNum = aTds[0].innerHTML
+                                        }
+                                        var pubName = aTds[1].innerHTML,
+                                            pubTel = aTds[2].innerHTML,
+                                            pubPerson = aTds[3].innerHTML,
+                                            pubEmail= aTds[4].innerHTML,
+                                            pubAddr = aTds[5].innerHTML,
+                                        sendData="pubNum="+pubNum+"&newPubNum="+newPubNum+"&pubName="+pubName+"&pubTel="+pubTel+"&pubPerson="+pubPerson+"&pubEmail="+pubEmail+"&pubAddr="+pubAddr;
+                                        ajax.ajaxGet("/web/PublishUpdateServlet?"+sendData,function(data) {
+                                            // data = JSON.parse(data);
+                                            console.log(data);
+                                            if(data!=="更新成功"){
+                                                alert("更新失败，请检查后台");
+                                            }
+                                        })
+                                    })();
+                                }
+                            }
+                        })(i)
+                    }
+                }
+            };
+            // 删除
+            Publishing.prototype.delete = function() {
+                var ele = {
+                    aDelBtn: doc.getElementsByName("del"),
+                    aPubNum: doc.querySelectorAll("tbody tr td:first-child"),
+                    oConfirmDel: doc.getElementsByClassName("delete")[0]
+                };
+                ele.oConfirmDel.onclick = function() {
+                    var sendData = checkBox();
+                    console.log(sendData);
+                    ajax.ajaxGet("/web/PublishDeleteServlet?"+sendData,function(data) {
+                        console.log(data);
+                        if(data!=="删除成功"){
+                            alert("删除失败，请检查后台");
+                        }else {
+                            alert("删除成功");
+                            history.go(0);
+                        }
+                    })
+                };
+                // 挑出选择的多选框
+                function checkBox() {
+                    var arr=[];
+                    var res = "";
+                    for(var i=0,len=ele.aDelBtn.length;i<len;i++) {
+                        (function(i) {
+                            if(ele.aDelBtn[i].checked) {
+                                var delItem = ele.aDelBtn[i].parentNode.parentNode;
+                                var delText = delItem.firstElementChild;
+                                var sendData = delText.innerHTML;
+                                arr.push(sendData);
+                            }
+                        }).call(this,i);
+                    }
+                    for(var k=0,len=arr.length;k<len;k++) {
+                        if(k==0) {
+                            res+="pubNum="+arr[k];
+                        }else {
+                            res+="&pubNum"+"="+arr[k];
+                        }
+                    }
+                    return res;
+                }
+            };
+            // 搜索
+            Publishing.prototype.search = function() {
+                var ele = {
+                    searchBox: doc.getElementById("searchList"),
+                    searchInput: doc.querySelector("#searchList td:first-child input"),
+                    searchList: doc.querySelectorAll("#searchList td")
+                };
+                ele.searchInput.onchange = function() {
+                    if(ele.searchInput.value!="") {
+                        sendData = ele.searchInput.value;
+                        ajax.ajaxGet("/web/NoBookServlet?pubNumSelect="+sendData,function(data) {
+                            data = JSON.parse(data);
+                            console.log(data);
+                            ele.searchInput.value = data["PubNum"];
+                            ele.searchList[1].innerHTML = data["pubName"];
+                            ele.searchList[2].innerHTML = data["pubTel"];
+                            ele.searchList[3].innerHTML = data["pubPerson"];
+                            ele.searchList[4].innerHTML = data["pubEmail"];
+                            ele.searchList[5].innerHTML = data["pubAddr"];
+                        })
+                    }
+                }
+            };
+        var pbulishing = new Publishing();
+        })(document,window);
+    </script>
+</body>
+</html>

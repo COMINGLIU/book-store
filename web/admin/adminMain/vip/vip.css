@@ -1,0 +1,26 @@
+@charset "utf-8";
+body {
+  background-color: #fff;
+}
+#container {
+  width: 100%;
+  margin: auto;
+  background-color: #fff;
+  color: #777;
+}
+table {
+  border-spacing: 0;
+  margin: auto;
+}
+table td {
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+table thead td {
+  font-size: 22px;
+}
+table tbody td {
+  font-size: 16px;
+}

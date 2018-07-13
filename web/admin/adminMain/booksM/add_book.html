@@ -1,0 +1,106 @@
+<!-- 增加书籍 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="add_book.css">
+    <title>增加书籍</title>
+    <style>
+        /* init */
+        body,ul{
+            margin: 0;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        /* coantainer */
+        #container {
+            color: #777;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <form action="/web/BookInsertServlet" method="post" accept-charset="UTF-8">
+            <ul id="content">
+                <li>
+                    <span>书编号：</span>
+                    <div>
+                        <input type="text" name="bookNum" required>
+                    </div>
+                </li>
+                <li>
+                    <span>书名：</span>
+                    <div>
+                        <input type="text" name="bookName" required>
+                    </div>
+                </li>
+                <li class="smallClass">
+                    <span>小类编号：</span>
+                    <div class="smallInputD">
+                        <input type="text" name="smallClassInput" required>
+                    </div>
+                </li>
+                <li>
+                    <span>版本号：</span>
+                    <div>
+                        <input type="text" name="version" required>
+                    </div>
+                    
+                </li>
+                <li>
+                    <span>出版社编号：</span>
+                    <div>
+                        <input type="text" name="pubNum" required>
+                    </div>
+                    
+                </li>
+
+                <li>
+                    <span>会员价：</span>
+                    <div>
+                        <input type="text" name="vipPrice" required>
+                    </div>
+                </li>
+                <li>
+                    <span>非会员价：</span>
+                    <div>
+                        <input type="text" name="noVipPrice" required>
+                    </div>
+                </li>
+                <li class="add" id="add">
+                    <span>作者：</span>
+                    <div class="writer">
+                        <input type="text" name="writer" required>
+                        <div class="addBtn">+</div>
+                        <div class="delBtn">-</div>
+                        <div class="addPartToNext">添加译者</div>
+                    </div>
+                </li>
+                <li class="addPart">
+                    <span>译者：</span>
+                    <div class="part">
+                        <input type="text" name="part">
+                        <div class="addPartBtn">+</div>
+                        <div class="delPartBtn">-</div>
+                    </div>
+                </li>
+                <li class="img">
+                    <span>书本图片：</span>
+                    <div>
+                        <input type="text">
+                    </div>
+                </li>
+            </ul>
+            <input type="submit" value="提交" name="sub">
+            <input type="reset" value="重置">
+        </form>
+    </div>
+    <script src="add_book.js"></script>
+</body>
+</html>

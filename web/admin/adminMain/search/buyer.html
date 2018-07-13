@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../common/reset.css">
+    <link rel="stylesheet" type="text/css" href="common/common.css">
+	<title>buyer表格</title>
+	<style type="text/css">
+		table td {
+		  width: 200px;
+		  height: 40px;
+		  line-height: 40px;
+		  text-align: center;
+		  overflow:hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+		}
+		table thead td {
+		  font-size: 22px;
+		}
+		table tbody td {
+		  font-size: 16px;
+		}
+        tr#searchList td {
+            width: 200px;
+            height: 40px;
+        }
+        tr#searchList td:first-child input{
+            border: 1px #ccc solid;
+            font-size: 14px;
+        }
+	</style>
+</head>
+<body>
+	<div id="container">
+        <table>
+            <thead> 
+                <tr>
+                    <td>buyerNum</td>
+                    <td>buyerName</td>
+                    <td>buyerTel</td>
+                    <td>buyerEmail</td>
+                    <td>buyerAddr</td>
+                    <td>isVip</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr id="searchList">
+                    <td>buyerNum</td>
+                    <td>buyerName</td>
+                    <td><input type="text" name="buyerTel" placeholder="buyerTel"></td>
+                    <td><input type="text" name="buyerEmail" placeholder="buyerEmail"></td>
+                    <td>buyerAddr</td>
+                    <td>isVip</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul class="btns">
+            <li>&lt;</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>&gt;</li>
+        </ul>
+    </div>
+    <script src="../../ajax.js"></script>
+    <script type="text/javascript">
+        (function(document,window) {
+            var doc = document;
+            var ele = {
+                aTr: doc.querySelectorAll("tbody tr"),
+                aBtns: doc.querySelectorAll(".btns li")
+            };
+            function Buyer() {
+                // 初始化获取数据
+                this.init();
+                // 点击分页
+                this.paging();
+                // 搜索
+                this.search();
+                // 添加:表单实现
+            }
+            Buyer.prototype.init = function() {
+                ajax.ajaxGet("/web/BuyerListServlet?buyer="+0,function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    for(var key in data) {
+                        var j = parseInt(key);
+                        var aTd = ele.aTr[j].getElementsByTagName("td");
+                        aTd[0].innerHTML = data[key]["buyerNum"];
+                        aTd[1].innerHTML = data[key]["buyerName"];
+                        aTd[2].innerHTML = data[key]["buyerTel"];
+                        aTd[3].innerHTML = data[key]["buyerEmail"];
+                        aTd[4].innerHTML = data[key]["buyerAdder"];
+                        aTd[5].innerHTML = data[key]["isVip"];
+                    }
+                })
+            };
+            Buyer.prototype.paging = function() {
+                for(var i=1,len=5;i<len;i++) {
+                    (function(i) {
+                        ele.aBtns[i].onclick = function() {
+                            var sendData = parseInt(ele.aBtns[i].innerHTML)-1;
+                            ajax.ajaxGet("/web/BuyerListServlet?buyer="+sendData,function(data) {
+                                window.sessionStorage.setItem("buyer"+sendData,data);
+                                data = JSON.parse(data);
+                                console.log(data);
+                                for(var key in data) {
+                                    var j = parseInt(key);
+                                    var aTd = ele.aTr[j].getElementsByTagName("td");
+                                    aTd[0].innerHTML = data[key]["buyerNum"];
+                                    aTd[1].innerHTML = data[key]["buyerName"];
+                                    aTd[2].innerHTML = data[key]["buyerTel"];
+                                    aTd[3].innerHTML = data[key]["buyerEmail"];
+                                    aTd[4].innerHTML = data[key]["buyerAdder"];
+                                    aTd[5].innerHTML = data[key]["isVip"];
+                                }
+                            }) 
+                        }
+                    })(i)
+                }
+            };
+            // 搜索
+            Buyer.prototype.search = function() {
+                var ele = {
+                    searchBox: doc.getElementById("searchList"),
+                    searchInput: doc.querySelectorAll("#searchList td input"),
+                    searchList: doc.querySelectorAll("#searchList td")
+                };
+                for(let i=0,len=ele.searchInput.length;i<len;i++) {
+                    ele.searchInput[i].onchange = function() {
+                        if(ele.searchInput[i].value!="") {
+                            var sendData = ele.searchInput[i].value;
+                            ajax.ajaxGet("/web/NoBookServlet?buyerSelect="+sendData,function(data) {
+                                data = JSON.parse(data);
+                                console.log(data);
+                                ele.searchList[0].innerHTML = data["buyerNum"]; 
+                                ele.searchList[1].innerHTML = data["buyerName"];
+                                ele.searchInput[0].value = data["buyerTel"];
+                                ele.searchInput[1].value = data["buyerEmail"];
+                                ele.searchList[4].innerHTML = data["buyerAddr"];
+                                ele.searchList[5].innerHTML = data["isVip"];
+                            })
+                        }
+                    }
+                }
+            };
+            var buyer = new Buyer();
+        })(document,window);
+    </script>
+</body>
+</html>

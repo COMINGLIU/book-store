@@ -1,0 +1,138 @@
+@charset "utf-8";
+ul#content > li {
+  width: 700px;
+  height: 40px;
+  margin: auto;
+  margin-top: 10px;
+}
+ul#content li.smallClass {
+  position: relative;
+}
+/*  */
+ul.cate {
+  position: absolute;
+  top: 43px;
+  left: 200px;
+  overflow: hidden;
+  height: 0;
+  list-style: none;
+  transition-duration: .3s;
+  z-index: 20;
+}
+ul.cate li {
+  width: 400px;
+  height: 30px;
+  margin-top: 0;
+  line-height: 30px;
+  border-bottom: 1px #fff solid;
+  background-color: #d9defa;
+}
+/*  */
+ul#content > li > span {
+  display: inline-block;
+  width: 150px;
+  height: 40px;
+  background-color: #ccc;
+  line-height: 40px;
+  vertical-align: middle;
+}
+ul#content > li > div {
+  display: inline-block;
+  width: 450px;
+  height: 40px;
+}
+ul#content > li > span,
+ul#content > li > div {
+  vertical-align: middle;
+}
+input {
+  font-size: 14px;
+  color: #777;
+}
+input:not([type="radio"]):not([type="submit"]):not([type="reset"]):not([name="partName"]) {
+  width: 450px;
+  height: 40px;
+  outline: none;
+  border: 0;
+  border-bottom: 1px #ccc solid;
+}
+input:not([type="radio"]):not([type="submit"]):not([type="reset"]):not([name="partName"]):focus {
+  border-bottom-color: #8a95d5;
+}
+input[type="submit"],
+input[type="reset"] {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  margin: auto;
+  margin-top: 10px;
+  outline: none;
+  border: 0;
+  transition-duration: .3s;
+}
+input[type="submit"]:hover {
+  background-color: #8a95d5;
+}
+input[type="submit"] {
+  background-color: #b3bef5;
+}
+input[type="reset"]:hover {
+  background-color: #f5f5f5;
+}
+input[type="radio"] {
+  width: 30px;
+}
+input[name="partName"] {
+  display: none;
+  width: 120px;
+  margin-left: 20px;
+  border: 0;
+  border-bottom: 1px #ccc solid;
+  outline: none;
+}
+/*  */
+.writer,
+.part {
+  position: relative;
+}
+.addPartToNext {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -65px;
+  width: 50px;
+  height: 20px;
+  margin: auto;
+  background-color: #ccc;
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+  user-select: none;
+}
+.addPartToNext:hover {
+  background-color: #8a95d5;
+  color: #fff;
+}
+.delBtn,
+.addBtn,
+.addPartBtn,
+.delPartBtn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 35px;
+  width: 30px;
+  height: 30px;
+  margin: auto;
+  border-radius: 50%;
+  background-color: #8a95d5;
+  color: #fff;
+  font-size: 30px;
+  line-height: 30px;
+  user-select: none;
+}
+.delBtn,
+.delPartBtn {
+  right: 0;
+}

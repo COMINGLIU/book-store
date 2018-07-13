@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../common/reset.css">
+    <link rel="stylesheet" type="text/css" href="common/common.css">
+	<title>book表格</title>
+	<style type="text/css">
+		table td {
+		  width: 200px;
+		  height: 40px;
+		  line-height: 40px;
+		  text-align: center;
+		  overflow:hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+		}
+		table thead td {
+		  font-size: 22px;
+		}
+		table tbody td {
+		  font-size: 16px;
+		}
+        tr#searchList td {
+            width: 200px;
+            height: 40px;
+        }
+        tr#searchList td:first-child input{
+            border: 1px #ccc solid;
+            font-size: 14px;
+        }
+        .corRed {
+            color: #c00;
+        }
+	</style>
+</head>
+<body>
+	<div id="container">
+        <table>
+            <thead> 
+                <tr>
+                    <td>bookNum</td>
+                    <td>bookName</td>
+                    <td>smallClassNum</td>
+                    <td>pubNum</td>
+                    <td>version</td>
+                    <td>vipPrice</td>
+                    <td>noVipPrice</td>
+                    <td>delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr id="searchList">
+                    <td><input type="text" name="bookNumS" placeholder="bookNum"></td>
+                    <td>bookName</td>
+                    <td>smallClassNum</td>
+                    <td>pubNum</td>
+                    <td>verison</td>
+                    <td>vipPrice</td>
+                    <td>noVipPrice</td>
+                    <td><em>编辑</em></td>
+                </tr>
+            </tbody>
+        </table>
+        <ul class="btns">
+            <li>&lt;</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>&gt;</li>
+            <!-- <li class="add">添加书籍</li> -->
+            <li class="delete">删除</li>
+        </ul>
+        <form action="/web/BookInsertServlet" method="post"> 
+            <ul id="addList">
+                <li class="close">x</li>
+                <li>
+                    <span>bookNum</span>
+                    <input type="text" name="bookNum" required="true">
+                </li>
+                <li>
+                    <span>bookName</span>
+                    <input type="text" name="bookName">
+                </li>
+                <li>
+                    <span>smallClassNum</span>
+                    <input type="text" name="smallClassNum">
+                </li>
+                <li>
+                    <span>pubNum</span>
+                    <input type="text" name="pubNum">
+                </li>
+                <li>
+                    <span>version</span>
+                    <input type="text" name="version">
+                </li>
+                <li>
+                    <span>vipPrice</span>
+                    <input type="text" name="vipPrice">
+                </li>
+                <li>
+                    <span>novipPrice</span>
+                    <input type="text" name="novipPrice">
+                </li>
+                <li><input type="submit" name="sub"></li>
+            </ul>
+        </form>
+    </div>
+    <script src="../../ajax.js"></script>
+    <script src="common/common.js"></script>
+    <script type="text/javascript">
+        (function(document,window) {
+            var doc = document;
+            var ele = {
+                aTr: doc.querySelectorAll("tbody tr"),
+                aBtns: doc.querySelectorAll(".btns li"),
+            };
+            oldBookNum=[];
+            function Book() {
+                // 继承Common属性
+                // Common.call(this);
+                // 初始化获取数据
+                this.init();
+                // 点击分页
+                this.paging();
+                // 更新
+                this.update();
+                // 删除
+                this.delete();
+                // 搜索
+                this.search();
+                // 添加:表单实现
+            }
+            // 继承common方法
+            // Book.prototype = new Common();
+            // 添加Book对象本身方法，初始化
+            Book.prototype.init = function(){
+                ajax.ajaxGet("/web/BookSelectServlet?bookAll="+0,function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    for(var key in data) {
+                        var i = parseInt(key);
+                        var aTd = ele.aTr[i].getElementsByTagName("td");
+                        aTd[0].innerHTML = data[key]["bookNum"];
+                        aTd[1].innerHTML = data[key]["bookName"];
+                        aTd[2].innerHTML = data[key]["smallClassNum"];
+                        aTd[3].innerHTML = data[key]["pubNum"];
+                        aTd[4].innerHTML = data[key]["version"];
+                        aTd[5].innerHTML = data[key]["vipPrice"];
+                        aTd[6].innerHTML = data[key]["noVipPrice"];
+                        oldBookNum[i]=data[key]["bookNum"];
+                    }
+                })
+            };
+            // 分页
+            Book.prototype.paging = function() {
+                var aimKey = 0;
+                var sendData = 0;
+                for(var i=0,len=6;i<len;i++) {
+                    (function(i) {
+                        if(i==0||i==5) {
+                            ele.aBtns[i].onclick = function() {
+                                console.log(aimKey);
+                                switch(i){
+                                    case 0:
+                                        sendData = aimKey-1<0?0:aimKey-1;
+                                        aimKey=sendData==0?0:aimKey-1;
+                                        console.log(sendData);
+                                        break;
+                                    case 5:
+                                        sendData = aimKey;
+                                        aimKey+=1;
+                                        console.log(sendData);
+                                        break;
+                                }
+                                ajax.ajaxGet("/web/BookSelectServlet?bookAll="+sendData,function(data) {
+                                    window.sessionStorage.setItem("book"+sendData,data);
+                                    data = JSON.parse(data);
+                                    console.log(data);
+                                    for(var key in data) {
+                                        var k = parseInt(key);
+                                        var aTd = ele.aTr[k].getElementsByTagName("td");
+                                        aTd[0].innerHTML = data[key]["bookNum"];
+                                        aTd[1].innerHTML = data[key]["bookName"];
+                                        aTd[2].innerHTML = data[key]["smallClassNum"];
+                                        aTd[3].innerHTML = data[key]["pubNum"];
+                                        aTd[4].innerHTML = data[key]["version"];
+                                        aTd[5].innerHTML = data[key]["vipPrice"];
+                                        aTd[6].innerHTML = data[key]["noVipPrice"];
+                                        oldBookNum[k]=data[key]["bookNum"];
+                                    }
+                                }) 
+                            }
+                        }else{
+                            ele.aBtns[i].onclick = function() {
+                                aimKey = i;
+                                sendData = parseInt(ele.aBtns[i].innerHTML-1);
+                                ajax.ajaxGet("/web/BookSelectServlet?bookAll="+sendData,function(data) {
+                                    window.sessionStorage.setItem("book"+sendData,data);
+                                    data = JSON.parse(data);
+                                    console.log(data);
+                                    for(var key in data) {
+                                        var k = parseInt(key);
+                                        var aTd = ele.aTr[k].getElementsByTagName("td");
+                                        aTd[0].innerHTML = data[key]["bookNum"];
+                                        aTd[1].innerHTML = data[key]["bookName"];
+                                        aTd[2].innerHTML = data[key]["smallClassNum"];
+                                        aTd[3].innerHTML = data[key]["pubNum"];
+                                        aTd[4].innerHTML = data[key]["version"];
+                                        aTd[5].innerHTML = data[key]["vipPrice"];
+                                        aTd[6].innerHTML = data[key]["noVipPrice"];
+                                        oldBookNum[k]=data[key]["bookNum"];
+                                    }
+                                }) 
+                            }
+                        }
+                    })(i)
+                }
+            };
+            // 根据书籍编号搜索书籍填入
+            Book.prototype.searchData = function() {
+                var ele = {
+                    bookNumInput: doc.querySelector("#searchList td input"),
+                    bookSearchTr: doc.getElementById("searchList"),
+                    bookSearchTd: doc.querySelectorAll("#searchList td")
+                };
+                if(ele.bookNumInput.value!="") {
+                    ele.bookNumInput.onchange = function() {
+                        var sendData = ele.bookNumInput.value;
+                        ajax.ajaxGet("/web/?bookNum="+sendData,function(data) {
+                            console.log(data);
+                            ele.bookSearchTd[0].innerHTML = data["bookNum"];
+                            ele.bookSearchTd[1].innerHTML = data["bookName"];
+                            ele.bookSearchTd[2].innerHTML = data["smallClassNum"];
+                            ele.bookSearchTd[3].innerHTML = data["pubNum"];
+                            ele.bookSearchTd[4].innerHTML = data["version"];
+                            ele.bookSearchTd[5].innerHTML = data["vipPrice"];
+                            ele.bookSearchTd[6].innerHTML = data["noVipPrice"];
+                        })
+                    }
+                }
+            };
+            // 修改
+            Book.prototype.update = function() {
+                var ele = {
+                    updBtn: doc.querySelectorAll("td:last-child em"),
+                    aTrs: doc.querySelectorAll("tbody tr"),
+                    aTdHeader: doc.querySelectorAll("thead tr td")
+                };
+                window.onload = function() {
+                    for(let i=0,len=ele.updBtn.length;i<len;i++) {
+                        ele.updBtn[i].count=0;
+                        (function(i) {
+                            var aTds = ele.aTrs[i].querySelectorAll("td");
+                            ele.updBtn[i].onclick = function() {
+                                ele.updBtn[i].count+=1;
+                                if(ele.updBtn[i].count%2!=0) {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        if(i==len-1&&j==0){
+                                            var tempValue = aTds[j].getElementsByTagName("input").value;
+                                            aTds[j].value =tempValue;
+                                        }else {
+                                            var tempValue = aTds[j].innerHTML;
+                                            // aTds[j].innerHTML = "<input type='text' value='"+tempValue+"'>";
+                                            aTds[j].innerHTML = j==0||j==2||j==3?"<input type='text' value='"+tempValue+"' readonly='true' class='corRed'>":"<input type='text' value='"+tempValue+"'>";
+                                        }
+                                        ele.updBtn[i].innerHTML = "确认";
+                                    }
+                                }else {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        var tempValue=aTds[j].getElementsByTagName("input")[0].value;
+                                        // 更改后
+                                        if(i==len-1&&j==0) {
+                                            aTds[j].value = tempValue;
+                                        }else {
+                                            aTds[j].innerHTML = tempValue;
+                                        }
+                                        ele.updBtn[i].innerHTML = "编辑";
+                                    }
+                                    // 发送更新请求
+                                    (function() {
+                                        var sendData = "",bookNum,newBookNum;
+                                        if(i==len-1) {
+                                            bookNum = aTds[0].getElementsByTagName("input")[0].value;
+                                            newBookNum = aTds[0].getElementsByTagName("input")[0].value;
+                                        }else {
+                                            bookNum= oldBookNum[i];
+                                            newBookNum = aTds[0].innerHTML;
+                                        }
+                                        var bookName = aTds[1].innerHTML,
+                                            smallClassNum = aTds[2].innerHTML,
+                                            pubNum = aTds[3].innerHTML,
+                                            version= aTds[4].innerHTML,
+                                            vipPrice = aTds[5].innerHTML,
+                                            noVipPrice = aTds[6].innerHTML;
+                                        sendData+="bookNum="+bookNum+"&newBookNum="+newBookNum+"&bookName="+bookName+"&smallClassNum="+smallClassNum+"&pubNum="+pubNum+"&version="+version+"&vipPrice="+vipPrice+"&noVipPrice="+noVipPrice;
+                                        ajax.ajaxGet("/web/ResetBookServlet?"+sendData,function(data) {
+                                            // data = JSON.parse(data);
+                                            console.log(data);
+                                            if(data!=="更新成功"){
+                                                alert("更新失败，请检查代码");
+                                            }
+                                        })
+                                    })();
+                                }
+                            }
+                        })(i)
+                    }
+                }
+            };
+            // 删除
+            Book.prototype.delete = function() {
+                var ele = {
+                    aDelBtn: doc.getElementsByName("del"),
+                    aBookNum: doc.querySelectorAll("tbody tr td:first-child"),
+                    oConfirmDel: doc.getElementsByClassName("delete")[0]
+                };
+                ele.oConfirmDel.onclick = function() {
+                    var sendData = checkBox();
+                    console.log(sendData);
+                    ajax.ajaxGet("/web/BookDeleteServlet?"+sendData,function(data) {
+                        console.log(data);
+                        history.go(0);
+                    })
+                };
+                // 挑出选择的多选框
+                function checkBox() {
+                    var arr=[];
+                    var res = "";
+                    for(var i=0,len=ele.aDelBtn.length;i<len;i++) {
+                        (function(i) {
+                            if(ele.aDelBtn[i].checked) {
+                                var delItem = ele.aDelBtn[i].parentNode.parentNode;
+                                var delText = delItem.firstElementChild;
+                                var sendData = delText.innerHTML;
+                                arr.push(sendData);
+                            }
+                        }).call(this,i);
+                    }
+                    for(var k=0,len=arr.length;k<len;k++) {
+                        if(k==0) {
+                            res+="bookNum="+arr[k];
+                        }else {
+                            res+="&bookNum"+"="+arr[k];
+                        }
+                    }
+                    return res;
+                }
+            };
+            // 搜索
+            Book.prototype.search = function() {
+                var ele = {
+                    searchBox: doc.getElementById("searchList"),
+                    searchInput: doc.querySelector("#searchList td:first-child input"),
+                    searchList: doc.querySelectorAll("#searchList td")
+                };
+                ele.searchInput.onchange = function() {
+                    if(ele.searchInput.value!="") {
+                        sendData = ele.searchInput.value;
+                        ajax.ajaxGet("/web/BookSelectbookNumServlet?bookNum="+sendData,function(data) {
+                            data = JSON.parse(data);
+                            console.log(data);
+                            ele.searchInput.value = data["bookNum"];
+                            ele.searchList[1].innerHTML = data["bookName"];
+                            ele.searchList[2].innerHTML = data["smallClassNum"];
+                            ele.searchList[3].innerHTML = data["pubNum"];
+                            ele.searchList[4].innerHTML = data["version"];
+                            ele.searchList[5].innerHTML = data["vipPrice"];
+                            ele.searchList[6].innerHTML = data["noVipPrice"];
+                        })
+                    }
+                };
+            };
+            var book = new Book();
+        })(document,window);
+    </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+@charset "utf-8";
+#header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  background-color: #b3bef5;
+  font-size: 0;
+  z-index: 20;
+  cursor: pointer;
+}
+#header > div {
+  display: inline-block;
+  font-size: 16px;
+  vertical-align: middle;
+  color: #fff;
+}
+#header .logo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  font-size: 30px;
+  line-height: 60px;
+  text-align: center;
+}
+#header .logo a {
+  display: inline-block;
+  color: #fff;
+}
+#header .search {
+  position: relative;
+  width: 600px;
+  height: 60%;
+  color: #94a8de;
+}
+#header .placeholder {
+  position: absolute;
+  z-index: 10;
+  width: 70px;
+  height: 80%;
+  margin-top: 5px;
+  border-right: 1px #94a8de solid;
+  background-color: transparent;
+  font-size: 14px;
+  text-align: center;
+  line-height: 30px;
+}
+#header .searchBox {
+  width: 60%;
+  height: 100%;
+  margin: auto;
+  border-radius: 10px;
+  padding-left: 80px;
+  background: #fff url(../imgs/search.png) no-repeat right;
+  background-size: 36px 36px;
+  color: #94a8de;
+  border: 1px #ccc solid;
+  outline: none;
+  font-size: 14px;
+}
+ul.searchClass {
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  transition-duration: .3s;
+}
+ul.searchClass li {
+  width: 100px;
+  height: 30px;
+  border-bottom: 1px #b3bef5 solid;
+  background-color: #fff;
+  color: #84bedf;
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+  transition-duration: .3s;
+}
+ul.searchClass li:hover {
+  background-color: #84bedf;
+  color: #fff;
+}
+#header .searchBox:focus {
+  border: 0;
+  box-shadow: 0 0 15px #fff;
+  transform: translateY(-1px);
+  transition-duration: .3s;
+}
+.header-right {
+  position: relative;
+  z-index: 10;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  height: 100%;
+}
+.header-right > div {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+}
+.header-right .admin a {
+  color: #fff;
+}
+.header-right .admin a:hover {
+  text-decoration: underline;
+}
+.reg-log {
+  width: 130px;
+  height: 100%;
+  text-align: center;
+  line-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.launch {
+  overflow: hidden;
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  width: 100px;
+  height: 0;
+  line-height: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  transition-duration: .2s;
+}
+.reg-log:hover,
+.user:hover {
+  text-decoration: underline;
+}
+.reg-log:hover ~ .launch {
+  height: 20px;
+}
+.launch:hover {
+  height: 20px;
+}
+.user {
+  width: 100px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+}
+#pop,
+#reg {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 400px;
+  height: 0;
+  margin: auto;
+  background-color: #b3bef5;
+  text-align: center;
+  color: #fff;
+  transition-duration: .3s;
+  cursor: pointer;
+}
+#pop {
+  z-index: 30;
+}
+#reg {
+  z-index: 25;
+}
+#pop p,
+#reg p {
+  font-size: 28px;
+  margin-top: 20px;
+}
+#pop input,
+#reg input {
+  display: block;
+  width: 300px;
+  height: 35px;
+  margin: auto;
+  margin-top: 30px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #777;
+}
+#pop input[type="text"],
+#pop input[type="password"],
+#reg input[type="text"],
+#reg input[type="password"] {
+  position: relative;
+  border: 1px #fff solid;
+}
+#pop input[type="text"]:focus,
+#pop input[type="password"]:focus,
+#reg input[type="text"]:focus,
+#reg input[type="password"]:focus {
+  border-color: #94a8de;
+}
+#pop input[type="submit"],
+#pop input[type="button"],
+#reg input[type="submit"],
+#reg input[type="button"] {
+  display: inline-block;
+  width: 50px;
+  height: 35px;
+}
+#reg .prompt {
+  display: none;
+  position: absolute;
+  top: 200px;
+  left: 0;
+  right: 0;
+  width: 200px;
+  height: 20px;
+  margin: auto;
+  font-size: 12px;
+  line-height: 20px;
+  color: red;
+}
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 15px;
+  color: #94a8de;
+  font-size: 28px;
+  text-align: center;
+  line-height: 25px;
+}
+#pop input[type="submit"],
+#pop input[type="button"],
+#reg input[type="submit"],
+#reg input[type="button"] {
+  background-color: #fff;
+  color: #94a8de;
+  margin-right: 10px;
+}
+#pop input[type="submit"]:hover,
+#pop input[type="button"]:hover,
+.close:hover,
+#reg input[type="submit"]:hover,
+#reg input[type="button"]:hover {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+#pop .passForget {
+  font-size: 14px;
+  color: #e6e6e6;
+}
+#pop .passForget:hover {
+  color: #fff;
+}

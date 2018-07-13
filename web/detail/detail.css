@@ -1,0 +1,160 @@
+@charset "utf-8";
+#container {
+  position: relative;
+  width: 100%;
+  color: #777;
+  user-select: none;
+}
+
+#content {
+  position: relative;
+  width: 100%;
+  padding-top: 80px;
+  cursor: pointer;
+}
+
+#content div {
+  margin: auto;
+  color: #777;
+}
+#content .top {
+  width: 1080px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #fff;
+  font-size: 0;
+}
+#content .top .left,
+#content .top .right {
+  vertical-align: middle;
+}
+#content .top > div,
+#content .top > ul {
+  display: inline-block;
+  font-size: 16px;
+  vertical-align: top;
+  background-color: #fff;
+}
+#content .top .left {
+  width: 50%;
+  text-align: center;
+  vertical-align: middle;
+}
+#content .top .left .img {
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+}
+#content .top .left .img:hover {
+  box-shadow: 0 5px 15px #ccc;
+  transform: translateY(-5px);
+  transition-duration: .3s;
+}
+#content .top .right {
+  width: 50%;
+  background-color: #fff;
+  color: #777;
+}
+#content .top .right li {
+  margin-bottom: 10px;
+}
+.top .right a {
+  color: #777;
+}
+.top .right .vipPrice,
+.top .right .noVipPrice {
+  color: #f00;
+}
+.top .right button {
+  width: 80px;
+  height: 30px;
+  color: #777;
+  font-weight: bold;
+  letter-spacing: 3px;
+  transition-duration: .3s;
+}
+.top .right li:last-child {
+  overflow: hidden;
+  height: 0;
+  transition-duration: .3s;
+}
+.top .right li:last-child > input,
+.top .right li:last-child .confirm {
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  vertical-align: middle;
+}
+.confirm {
+  background-color: #ff4c4c;
+  text-align: center;
+  line-height: 22px;
+  color: #fff;
+  transition-duration: #fff;
+}
+.fee {
+  display: inline-block;
+  padding-left: 10px;
+  width: 250px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.fee span {
+  color: #f00;
+}
+form {
+  display: inline-block;
+  overflow: hidden;
+}
+form input {
+  vertical-align: middle;
+}
+form input[type="number"] {
+  width: 70px;
+  border: 1px #ccc solid;
+}
+form input[type="submit"],
+form input[name="reset"] {
+  width: 50px;
+  height: 40px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 23px;
+  border-radius: 5px;
+  transition-duration: .3s;
+}
+form input[type="submit"] {
+  background-color: #ff4c4c;
+}
+form input[type="submit"]:hover {
+  box-shadow: 0 0 10px #ccc;
+}
+form input[name="reset"]:hover {
+  box-shadow: 0 0 10px #fff; 
+}
+.top .right button:hover {
+  background-color: #ff4c4c;
+  color: #eee;
+}
+form #orderInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 300px;
+  height: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  transition-duration: .3s;
+}

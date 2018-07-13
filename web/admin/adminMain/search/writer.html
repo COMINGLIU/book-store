@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../common/reset.css">
+    <link rel="stylesheet" type="text/css" href="common/common.css">
+	<title>writer表格</title>
+	<style type="text/css">
+		table td {
+		  width: 200px;
+		  height: 40px;
+		  line-height: 40px;
+		  text-align: center;
+		  overflow:hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+		}
+		table thead td {
+		  font-size: 22px;
+		}
+		table tbody td {
+		  font-size: 16px;
+		}
+        tr#searchList td {
+            width: 200px;
+            height: 40px;
+        }
+        tr#searchList td:first-child input{
+            border: 1px #ccc solid;
+            font-size: 14px;
+        }
+        .corRed {
+            color: #c00;
+        }
+	</style>
+</head>
+<body>
+	<div id="container">
+        <table>
+            <thead> 
+                <tr>
+                    <td>id</td>
+                    <td>bookNum</td>
+                    <td>writer</td>
+                    <td>translator</td>
+                    <td>delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="checkbox" name="del"><em>编辑</em></td>
+                </tr>
+                <tr id="searchList">
+                    <td>id</td>
+                    <td><input type="text" name="writerId" placeholder="bookNum"></td>
+                    <td>writer</td>
+                    <td>translator</td>
+                    <td><em>编辑</em></td>
+                </tr>
+            </tbody>
+        </table>
+        <ul class="btns">
+            <li>&lt;</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>&gt;</li>
+            <li class="add">添加</li>
+            <li class="delete">删除</li>
+        </ul>
+        <form action="/web/WriterInsertServlet" method="post"> 
+            <ul id="addList">
+                <li class="close">x</li>
+                <li>
+                    <span>bookNum</span>
+                    <input type="text" name="bookNum">
+                </li>
+                <li>
+                    <span>writer</span>
+                    <input type="text" name="writer">
+                </li>
+                <li>
+                    <span>translator</span>
+                    <input type="text" name="translator">
+                </li>
+                <li><input type="submit" name="sub"></li>
+            </ul>
+        </form>
+    </div>
+    <script src="../../ajax.js"></script>
+    <script src="common/common.js"></script>
+    <script type="text/javascript">
+        (function(document,window) {
+            var doc = document;
+            var ele = {
+                aTr: doc.querySelectorAll("tbody tr"),
+                aBtns: doc.querySelectorAll(".btns li")
+            };
+            oldBookNum=[];
+            function Writer() {
+                Common.call(this);
+                // 初始化获取数据
+                this.init();
+                // 点击分页
+                this.paging();
+                // 更新
+                this.update();
+                // 删除
+                this.delete();
+                // 搜索
+                this.search();
+                // 添加:表单实现
+            }
+            Writer.prototype = new Common();
+            Writer.prototype.init = function() {
+                ajax.ajaxGet("/web/NoBookServlet?writerAll="+0,function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    for(var key in data) {
+                        var i = parseInt(key);
+                        var aTd = ele.aTr[i].getElementsByTagName("td");
+                        aTd[0].innerHTML = data[key]["id"];
+                        aTd[1].innerHTML = data[key]["bookNum"];
+                        aTd[2].innerHTML = data[key]["name"];
+                        aTd[3].innerHTML = data[key]["part"];
+                        oldBookNum[i]=data[key]["bookNum"];
+                    }
+                }) 
+            };
+            Writer.prototype.paging = function() {
+                for(var i=1,len=5;i<len;i++) {
+                    (function(i) {
+                        ele.aBtns[i].onclick = function() {
+                            var sendData = parseInt(ele.aBtns[i].innerHTML)-1;
+                            ajax.ajaxGet("/web/NoBookServlet?writerAll="+sendData,function(data) {
+                                data = JSON.parse(data);
+                                console.log(data);
+                                for(var key in data) {
+                                    var j = parseInt(key);
+                                    var aTd = ele.aTr[j].getElementsByTagName("td");
+                                    aTd[0].innerHTML = data[key]["id"];
+                                    aTd[1].innerHTML = data[key]["bookNum"];
+                                    aTd[2].innerHTML = data[key]["name"];
+                                    aTd[3].innerHTML = data[key]["part"];
+                                    oldBookNum[j]=data[key]["bookNum"];
+                                }
+                            }) 
+                        }
+                    })(i)
+                }
+            };
+             // 修改
+            Writer.prototype.update = function() {
+                var ele = {
+                    updBtn: doc.querySelectorAll("td:last-child em"),
+                    aTrs: doc.querySelectorAll("tbody tr"),
+                };
+                window.onload = function() {
+                    for(let i=0,len=ele.updBtn.length;i<len;i++) {
+                        ele.updBtn[i].count=0;
+                        (function(i) {
+                            var aTds = ele.aTrs[i].querySelectorAll("td");
+                            ele.updBtn[i].onclick = function() {
+                                ele.updBtn[i].count+=1;
+                                if(ele.updBtn[i].count%2!=0) {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        if(i==len-1&&j==1){
+                                            var tempValue = aTds[j].getElementsByTagName("input").value;
+                                            aTds[j].value =tempValue;
+                                        }else {
+                                            var tempValue = aTds[j].innerHTML;
+                                            aTds[j].innerHTML = "<input type='text' value='"+tempValue+"'>";
+                                            aTds[j].innerHTML = j==1?"<input type='text' value='"+tempValue+"' readonly='true' class='corRed'>":"<input type='text' value='"+tempValue+"'>";
+                                        }
+                                        ele.updBtn[i].innerHTML = "确认";
+                                    }
+                                }else {
+                                    for(let j=0,len2=aTds.length-1;j<len2;j++) {
+                                        var tempValue=aTds[j].getElementsByTagName("input")[0].value;
+                                        // 更改后
+                                        if(i==len-1&&j==1) {
+                                            aTds[j].value = tempValue;
+                                        }else {
+                                            aTds[j].innerHTML = tempValue;
+                                        }
+                                    }
+                                    ele.updBtn[i].innerHTML = "编辑";
+                                    // 发送更新请求
+                                    (function() {
+                                        var sendData = "",bookNum,newBookNum;
+                                        if(i==len-1) {
+                                            bookNum = aTds[1].getElementsByTagName("input")[0].value;
+                                            newBookNum = aTds[1].getElementsByTagName("input")[0].value;
+                                        }else {
+                                            bookNum= oldBookNum[i];
+                                            newBookNum = aTds[1].innerHTML;
+                                        }
+                                        var name = aTds[2].innerHTML,
+                                            part = aTds[3].innerHTML,
+                                            sendData="bookNum="+bookNum+"&newBookNum="+newBookNum+"&name="+name+"&part="+part;
+                                        ajax.ajaxGet("/web/WriterUpdateServlet?"+sendData,function(data) {
+                                            // data = JSON.parse(data);
+                                            console.log(data);
+                                            if(data!=="更新成功"){
+                                                alert("更新失败，请检查后台");
+                                            }
+                                        })
+                                    })();
+                                }
+                            }
+                        })(i)
+                    }
+                }
+            };
+            // 删除
+            Writer.prototype.delete = function() {
+                var ele = {
+                    aDelBtn: doc.getElementsByName("del"),
+                    aPubNum: doc.querySelectorAll("tbody tr td:first-child"),
+                    oConfirmDel: doc.getElementsByClassName("delete")[0]
+                };
+                ele.oConfirmDel.onclick = function() {
+                    var sendData = checkBox();
+                    console.log(sendData);
+                    ajax.ajaxGet("/web/WriterDeleteServlet?"+sendData,function(data) {
+                        console.log(data);
+                        if(data!=="删除成功"){
+                            alert("删除失败，请检查后台");
+                        }else {
+                            alert("删除成功");
+                            history.go(0);
+                        }
+                    })
+                };
+                // 挑出选择的多选框
+                function checkBox() {
+                    var arr=[];
+                    var res = "";
+                    for(var i=0,len=ele.aDelBtn.length;i<len;i++) {
+                        (function(i) {
+                            if(ele.aDelBtn[i].checked) {
+                                var delItem = ele.aDelBtn[i].parentNode.parentNode;
+                                var delText = delItem.firstElementChild.nextElementSibling;
+                                var sendData = delText.innerHTML;
+                                arr.push(sendData);
+                            }
+                        }).call(this,i);
+                    }
+                    for(var k=0,len=arr.length;k<len;k++) {
+                        if(k==0) {
+                            res+="bookNum="+arr[k];
+                        }else {
+                            res+="&bookNum"+"="+arr[k];
+                        }
+                    }
+                    return res;
+                }
+            };
+            // 搜索
+            Writer.prototype.search = function() {
+                var ele = {
+                    searchBox: doc.getElementById("searchList"),
+                    searchInput: doc.querySelector("#searchList td:nth-child(2) input"),
+                    searchList: doc.querySelectorAll("#searchList td")
+                };
+                ele.searchInput.onchange = function() {
+                    if(ele.searchInput.value!="") {
+                        sendData = ele.searchInput.value;
+                        ajax.ajaxGet("/web/NoBookServlet?writerBookNumSelect="+sendData,function(data) {
+                            console.log(data);
+                            data = JSON.parse(data);
+                            console.log(data);
+                            ele.searchList[0].innerHTML = data["id"];
+                            ele.searchList[1].value = data["bookNum"];
+                            ele.searchList[2].innerHTML = data["name"];
+                            ele.searchList[3].innerHTML = data["part"];
+                        })
+                    }
+                }
+            };
+            var writer = new Writer();
+        })(document,window);
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+@charset "utf-8";
+body {
+  background-color: #fff;
+}
+#container {
+  width: 100%;
+  margin: auto;
+  background-color: #fff;
+  color: #777;
+  cursor: pointer;
+}
+table {
+  border-spacing: 0;
+  margin: auto;
+}
+ul.btns {
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	list-style: none;
+	text-align: center;
+}
+ul.btns li {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 5px;
+	margin-right: 8px;
+	text-align: center;
+	line-height: 25px;
+	background-color: rgb(205,205,205);
+	color:#888;
+}
+ul.btns li.delete {
+	width: 50px;
+}
+ul.btns li.confirmUpd,
+ul.btns li.add {
+	width: 70px;
+}
+ul.btns li:hover {
+	background-color: rgb(148,168,222);
+	color: #fff;
+}
+/*修改表单*/
+form input {
+	border: 1px #ccc solid;
+}
+form input[type="submit"] {
+	width: 60px;
+}
+tbody tr input,
+tr.search input,
+tr.add input{
+	border: 1px #ccc solid;
+	font-size: 14px;
+	color: #777;
+}
+tr.add td:last-child span {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: rgb(138,149,213);
+	font-size: 28px;
+	color: #fff;
+	line-height: 30px;
+}
+tr.search span{
+	display: inline-block;
+	width: 50px;
+	height: 30px;
+	background-color: rgb(138,149,213);
+	color: #fff;
+	line-height: 30px;
+}
+/*修改框*/
+tbody td input[type="text"]{
+	width: 100%;
+	text-align: center;
+}
+tr#searchList input{
+	width:98%;
+	color:rgb(88,99,157);
+}
+tr td:last-child input{
+	vertical-align: middle;
+}
+tr td:last-child em {
+	margin-left:5px;
+	font-size: 12px;
+	line-height: 13px;
+}
+tr td:last-child em:hover {
+	text-decoration: underline;
+}
+tr#searchList{
+	color:rgb(88,99,157);
+}
+tr#searchList td:last-child:hover{
+	text-decoration: underline;
+}
+
+/*添加书籍弹出框*/
+ul#addList {
+	display: none;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding-top: 50px;
+	padding-left: 10px;
+	margin: auto;
+	width: 500px;
+	height: auto;
+	background-color: #ccc;
+	cursor: pointer;
+}
+ul#addList li {
+	margin-top: 20px;
+}
+ul#addList li.close {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	font-size: 28px;
+	text-align: center;
+	line-height: 26px;
+	background-color: #fff;
+}
+ul#addList li.close:hover {
+	box-shadow: 0 0 10px rgba(255,255,255,.8);
+}
+ul#addList li span{
+	display: inline-block;
+	width: 130px;
+	text-align: left;
+}
+ul#addList li input:not([type="submit"]) {
+	width: 350px;
+	height: 30px;
+}
+ul#addList li input[type="submit"] {
+	width: 60px;
+	height: 30px;
+	color: #777;
+}
+ul#addList li input[type="submit"]:hover {
+	box-shadow: 0 0 15px #fff;
+	transition-duration: .2s;
+}
+ul#addList li:last-child{
+	text-align: center;
+}

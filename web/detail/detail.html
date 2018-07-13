@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../common/reset.css">
+    <link rel="stylesheet" href="../module/module.css">
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="../common/iconfont.css">
+    <title>详情页</title>
+    <script>
+        function ajaxGet(url,callback) {
+            var xmlhttp;
+            try{
+                xmlhttp = new XMLHttpRequest();
+            }catch(e){
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                console.log(xmlhttp.readyState);
+                console.log(xmlhttp.status);
+                if(xmlhttp.readyState==4&&xmlhttp.status==200) {
+                    var data = JSON.parse(xmlhttp.response);
+                    callback&&callback(data);
+                }
+            }
+            xmlhttp.open("GET",url,true);
+            xmlhttp.send();
+        }
+        function ajaxPost(url,data,callback) {
+            var xmlhttp;
+            try{
+                xmlhttp = new XMLHttpRequest();
+            }catch(e){
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                console.log(xmlhttp.readyState);
+                console.log(xmlhttp.status);
+                if(xmlhttp.readyState==4&&xmlhttp.status==200) {
+                    var data = xmlhttp.response;
+                    callback&&callback(data);
+                }
+            }
+            xmlhttp.open("POST",url,true);
+            xmlhttp.setRequestHeader("Content-Type","applx-www-form-urlencoded");
+            xmlhttp.send(data);
+        }   
+        // 设置localStorage
+        function setLocal(key,value) {
+            window.localStorage.setItem(key,value);
+        }
+        //保存密码
+        function getLocal() {
+            return {
+                username: window.localStorage.getItem("username"),
+                pass: window.localStorage.getItem("pass")
+            }
+        }
+        // 登陆
+        function logging() {
+            var ele = {
+                // 用户名
+                oName: document.getElementsByName("name")[0],
+                // 密码
+                oPass: document.getElementsByName("pass")[0],
+                // 弹窗
+                oPop:document.getElementById("pop"),
+                // 会员价
+                oVipPrice: document.querySelector(".vipPrice"),
+                // 购买数量
+                oBuyN: document.getElementsByName("buyN")[0],
+                // 确认框
+                oConfirm: document.getElementsByClassName("confirm")[0]
+            };
+            var name = ele.oName.value,
+                pass = ele.oPass.value,
+                sendValue;
+            emailReg = name.match(/^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$/g);
+            telReg = name.match(/^1[3|4|5|8]\d{9}$/g);
+            if(emailReg!=null) {
+                sendValue="buyerEmail";
+            }else if(telReg!=null) {
+                sendValue="buyerTel";
+            }
+            if(name!==""&&pass!=="") {
+                ajaxPost("/web/BuyerLoginServlet?",sendValue+"="+name+"&pass="+pass,function(data) {
+                    console.log(data);
+                    switch(data) {
+                        case "password error":
+                            alert("用户名或密码错误!");
+                            break;
+                        case "user dose not exist":
+                            alert("用户不存在");
+                            break;
+                        case "abnormal":
+                            alert("请输入正确格式");
+                            break;
+                        default:
+                            ele.oPop.style.height = "0";
+                            ele.oPop.style.border = "0";
+                            var key = document.getElementsByClassName("reg-log")[0];
+                            key.onclick=null;
+                            key.innerHTML = name;
+                            setLocal("username",name);
+                            setLocal("pass",pass);
+                            setLocal("buyerNum",data);
+                            ajaxGet("/web/BuyerUserServlet?isVip="+name,function(data) {
+                            console.log(data);
+                            switch(data["isVip"]) {
+                                case "是":
+                                    var user = document.querySelector(".user");
+                                    user.innerHTML="至尊会员";
+                                    user.style.color ="rgb(235,251,255)";
+                                    if(ele.oConfirm.clientHeight!==0) {
+                                        var perFee = ele.oVipPrice.innerHTML,
+                                            number = ele.oBuyN.value,
+                                            fee = document.querySelector(".fee span");
+                                        fee.innerHTML = perFee+" x "+number+" = "+ (perFee*number).toFixed(2) + " (会员价)";
+                                    }
+                                    break;
+                                case "否":
+                                    user.innerHTML="个人中心";
+                                    break;
+                                }
+                            })
+                            break;
+                    }
+                });
+            }
+        }
+        // 注册
+        function regging() {
+            var ele = {
+                // 昵称
+                oBuyerName: document.querySelector("#reg .buyerName"),
+                // 电话号码
+                oBuyerTel: document.querySelector("#reg .buyerTel"),
+                // 邮箱
+                oBuyerEmail: document.querySelector("#reg .buyerEmail"),
+                // 地址
+                oBuyerAddr: document.querySelector("#reg .buyerAddr"),
+                // 密码
+                oPass: document.querySelector("#reg .password"),
+                // 再次确认密码
+                oPassAgain: document.getElementsByName("passAgin")[0],
+                // 弹窗
+                oPop:document.getElementById("pop"),
+                // 注册框
+                oReg: document.querySelector("#reg")
+            };
+            var buyerName = ele.oBuyerName.value,
+                buyerTel = ele.oBuyerTel.value,
+                buyerEmail = ele.oBuyerEmail.value,
+                buyerAddr = ele.oBuyerAddr.value,
+                password = ele.oPass.value,
+                passAgain = ele.oPassAgain.value;
+            if(buyerName!=""&&buyerTel!=""&&buyerEmail!=""&&buyerAddr!=""&&password!=""&passAgain!=""&&password===passAgain) {
+                ajaxPost("/web/BuyerInsertServlet","buyerName="+buyerName+"&buyerTel="+buyerTel+"&buyerEmail="+buyerEmail+"&buyerAddr="+buyerAddr+"&password="+password,function(data) {
+                    console.log(data);
+                    switch(data) {
+                        case "success":
+                            // var key = document.getElementsByClassName("reg-log")[0];
+                            // key.onclick=null;
+                            // key.innerHTML = name;
+                            ele.oReg.style.height = "0";
+                            ele.oReg.style.border = "0";
+                            ele.oPop.style.cssText = "height:280px;border: 15px rgba(255,255,255,.5) solid;border-radius: 10px;";
+                            break;
+                        case "user have exised":
+                            alert("用户已存在");
+                            break;
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="pop">
+            <p>登录注册</p>
+            <form action="" method="post" onsubmit="return false">
+                <input type="text" name="name" placeholder="手机号码/密码" pattern="(^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$)|(^1[3|4|5|8]\d{9}$)" required>
+                <input type="password" name="pass" placeholder="密码" required>
+                <input type="submit" value="登陆" name="sub" onclick="logging()">
+                <input type="button" value="注册" name="reg">
+                <a href="#" class="passForget">忘记密码</a>
+                <div class="close">x</div>
+            </form>
+        </div>
+        <div id="reg">
+            <p>注册</p>
+            <form action="" method="post" onsubmit="return false">
+                <input type="text" name="buyerName" class="buyerName" placeholder="昵称" required>
+                <input type="text" name="buyerTel" class="buyerTel" placeholder="手机号码" pattern="(^1[3|4|5|8]\d{9}$)" required>
+                <input type="email" name="buyerEmail" class="buyerEmail" placeholder="邮箱" pattern="(^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$)" required>
+                <input type="text" name="buyerAddr" class="buyerAddr" placeholder="地址（方便我们把商品邮寄给您）">
+                <input type="password" name="password" class="password" placeholder="密码" required>
+                <input type="password" name="passAgin" class="passAgain" placeholder="确认密码" required>
+                <input type="submit" value="注册" name="subReg" onclick = "regging()">
+                <input type="button" value="取消" name="cancel">
+                <div class="close">x</div>
+                <div class="prompt">! 密码不一致</div>
+            </form>
+        </div>
+        <div id="header">
+            <div class="logo"><a href="../index.html">logo</a></div>
+            <div class="header-right">
+                <div class="reg-log">登陆/注册</div>
+                <div class="user">个人中心</div>
+            </div>
+        </div>
+            <div id="content">
+                <div class="top">
+                    <div class="left">
+                        <div class="img"><img src="" alt=""></div>
+                    </div>
+                    <ul class="right">
+                        <li><h3 class="font28 bookName"></h3></li>
+                        <li><span>书籍编号：</span><span class="bookNum"></span></li>
+                        <li><span>版本号：</span><span class="version"></span></li>
+                        <li><span>作者：</span><span class="name"></span></li>
+                        <li><span>译者：</span><span class="part"></span></li>
+                        <li><span>出版社：</span><span class="pubName"></span></li>
+                        <li><span>类型：</span><span class="pubNum"></span></li>
+                        <li><span>会员价：￥</span><span class="vipPrice"></span></li>
+                        <li><span>平价：￥</span></span><span class="noVipPrice"></span></li>
+                        <li><button class="buy">购买</button><div class="fee"> 总金额：<span></span></div></li>
+                        <li>
+                            <form action="" methods="post">
+                                数量：<input type="number" name="buyN" min="1" value="1">
+                                <div class="confirm" style="color: #fff">确认</div>
+                                <div id="orderInfo">
+                                    <input type="submit" value="提交" name="submit" onsubmit="return false">    
+                                    <input type="button" value="取消" name="reset">
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                    <div id="buyInfo">
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                <!-- <ul>
+                    <li id="zhifubao">
+                        <em></em>
+                        <div class="erweima"><img src="../imgs/zhifubao2.jpg" alt=""></div>
+                    </li>
+                    <li id="wechat">
+                        <em></em>
+                        <div class="erweima"><img src="../imgs/zhifubao2.jpg" alt=""></div>
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
+    <script src="../module/module.js"></script>
+    <script src="detail.js"></script>
+    <script src="../common/common.js"></script>
+</body>
+</html>

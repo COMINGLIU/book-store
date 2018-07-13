@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../common/reset.css">    
+    <title>更新书籍</title>
+    <style>
+        body {
+            background-color: #fff;
+        }
+        #container { 
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            color: #777;
+            
+        }
+        #container>ul {
+            width: 35%;
+            height: 490px;
+            padding-top: 10px;
+            padding-bottom: 20px;
+            border-top: 10px #fff solid;
+            background-color: rgb(245,245,245);
+            z-index: 20;
+        }
+        #search {
+            position: fixed;
+            left: 50px;
+            top: 50px;
+            width: 200px;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 0 15px;
+            z-index: 10;
+        }
+        #search p {
+            text-align: center;
+        }
+        #search input {
+            width: 200px;
+            height: 40px;
+            border: 1px #ccc solid;
+            outline: none;
+            border: 0;
+            background-color: rgb(138,149,213);
+            color: #fff;
+        }
+        ul#right {
+            overflow: hidden;
+            width: 0;
+            transition-duration: .3s;
+        }
+        ul li span {
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            vertical-align: middle;
+        }
+        ul li span:first-child {
+            width: 100px;
+        }
+        ul#left li span:nth-child(2) {
+            overflow-x: auto;
+            width: 250px;
+            font-size: 14px;
+        }
+        input {
+            height: 30px;
+            width: 270px;
+            color: #777;
+            font-size: 14px;
+        }
+        input:not([type="submit"]):focus {
+            border-bottom:1px rgba(179,190,245,.5) solid;
+        }
+        #right li:last-child {
+            margin-top: 20px;
+            text-align: center;
+        }
+        input[type="submit"] {
+            transition-duration: .2s;
+        }
+        input[type="button"]:hover,
+        input[type="submit"]:hover {
+            background-color:rgb(138,149,213);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="search">
+        <p>输入编号查询</p>
+        <input type="text" name="search">
+    </div>
+    <div id="container">
+        <ul id="left">
+            <li>
+                <span></span>
+                <span></span>
+            </li>
+            <li class="bookNum">
+                <span>图书编号</span>
+                <span></span>
+            </li>
+            <li class="bookName">
+                <span>书名</span>
+                <span></span>
+            </li>
+            <li class="smallClassNum">
+                <span>小类编号</span>
+                <span></span>
+            </li>
+            <li class="pubNum">
+                <span>出版社编号</span>
+                <span></span>
+            </li>
+            <li class="version">
+                <span>版本号</span>
+                <span></span>
+            </li>
+            <li class="vipPrice">
+                <span>vip价格</span>
+                <span></span>
+            </li>
+            <li class="noVipPrice">
+                <span>非vip价格</span>
+                <span></span>
+            </li>
+            <li class="writerName">
+                <span>作者</span>
+                <span></span>
+            </li>
+            <li class="translatorName">
+                <span>译者</span>
+                <span></span>
+            </li>
+            <li class="imgURL">
+                <span>书籍图片</span>
+                <span></span>
+            </li>
+            <li>
+                <input type="button" value="修改书籍信息" name="upd">
+            </li>
+        </ul>        
+        <ul id="right">
+            <form action="/web/BookUpdateServlet" method="post" accept-charset="UTF-8">
+                <li>
+                    <span style="color: #ccc">旧图书编号</span>
+                    <input type="text" name="oldBookNum" readonly="true" style="color: #ccc;background-color: rgb(245,245,245);" required="true">
+                </li>
+                <li>
+                    <span>新图书编号</span>
+                    <input type="text" name="bookNum" required="true">
+                </li>
+                <li>
+                    <span>书名</span>
+                    <input type="text" name="bookName" required="true">
+                </li>
+                <li>
+                    <span>小类编号</span>
+                    <input type="text" name="smallClassNum" required="true">
+                </li>
+                <li>
+                    <span>出版社编号</span>
+                    <input type="text" name="pubNum" required="true">
+                </li>
+                <li>
+                    <span>版本号</span>
+                    <input type="text" name="version" required="true">
+                </li>
+                <li>
+                    <span>vip价格</span>
+                    <input type="text" name="vipPrice" required="true">
+                </li>
+                <li>
+                    <span>非vip价格</span>
+                    <input type="text" name="noVipPrice" required="true">
+                </li>
+                <li>
+                    <span>作者</span>
+                    <input type="text" name="writerName">
+                </li>
+                <li>
+                    <span>译者</span>
+                    <input type="text" name="translatorName">
+                </li>
+                <li>
+                    <span>书籍图片路径</span>
+                    <input type="text" name="imgURL">
+                </li>
+                <li>
+                    <input type="submit" name="sub" value="提交">
+                    <!-- <input type="button" value="提交" name="sub"> -->
+                </li>
+            </form>
+        </ul>
+    </div>
+    <script src="../../ajax.js"></script>
+    <script>
+        (function(){
+            var doc = document;
+            var aLis = {
+                bookNum: doc.querySelector(".bookNum span:nth-child(2)"),
+                bookName: doc.querySelector(".bookName span:nth-child(2)"),
+                smallClassNum: doc.querySelector(".smallClassNum span:nth-child(2)"),
+                pubNum: doc.querySelector(".pubNum span:nth-child(2)"),
+                version: doc.querySelector(".version span:nth-child(2)"),
+                vipPrice: doc.querySelector(".vipPrice span:nth-child(2)"),
+                noVipPrice: doc.querySelector(".noVipPrice span:nth-child(2)"),
+                writerName: doc.querySelector(".writerName span:nth-child(2)"),
+                translatorName: doc.querySelector(".translatorName span:nth-child(2)")
+            }
+            var aInput = {
+                oldBookNum: doc.getElementsByName("oldBookNum")[0],
+                bookNum: doc.getElementsByName("bookNum")[0],
+                bookName: doc.getElementsByName("bookName")[0],
+                smallClassNum: doc.getElementsByName("smallClassNum")[0],
+                pubNum: doc.getElementsByName("pubNum")[0],
+                version: doc.getElementsByName("version")[0],
+                vipPrice: doc.getElementsByName("vipPrice")[0],
+                noVipPrice: doc.getElementsByName("noVipPrice")[0],
+                writerName: doc.getElementsByName("writerName")[0],
+                translatorName: doc.getElementsByName("translatorName")[0]
+            };
+            function UpdateBook() {
+                // 右边修改书籍
+                this.update();
+                // 搜索书籍信息
+                this.numSerach();
+                // 上传修改
+                // this.upChange();
+            }
+            Object.defineProperty(UpdateBook.prototype,"constructor",{
+                enumerable: false,
+                value: UpdateBook
+            });
+            UpdateBook.prototype = {
+                // 渲染书籍信息
+                init: function() {
+                    var req = window.location.search.split("=")[1],
+                        sendData = encodeURI(req);
+                    ajax.ajaxGet("?bookNum="+sendData,function(data) {
+                        console.log(data);
+                        // 渲染数据
+                    })
+                },
+                // 内置input默认项
+                inputM: function() {
+                    aInput.oldBookNum.value = aLis.bookNum.innerHTML;
+                    aInput.bookNum.value = aLis.bookNum.innerHTML;
+                    aInput.bookName.value = aLis.bookName.innerHTML;
+                    aInput.smallClassNum.value = aLis.smallClassNum.innerHTML;
+                    aInput.pubNum.value = aLis.pubNum.innerHTML;
+                    aInput.version.value = aLis.version.innerHTML;
+                    aInput.vipPrice.value = aLis.vipPrice.innerHTML;
+                    aInput.noVipPrice.value = aLis.noVipPrice.innerHTML;
+                    aInput.writerName.value = aLis.writerName.innerHTML;
+                    aInput.translatorName.value = aLis.translatorName.innerHTML;
+                },  
+                // 修改书籍
+                update: function() {
+                    var updateBtn = doc.getElementsByName("upd")[0],
+                        rightUl = doc.getElementById("right"),
+                        aLeftLis = doc.querySelectorAll("#left li span:nth-child(2)"),
+                        aRightInputs = doc.querySelectorAll("#right input"),
+                        oUpdSub = doc.getElementsByName("sub")[0];
+                    updateBtn.onclick =  function() {
+                        rightUl.style.width = "35%";
+                    }
+                    for(var i=0,len=aRightInputs.length;i<len;i++) {
+                        (function(i) {
+                            aRightInputs[i].onkeyup = function() {
+                                aLeftLis[i].innerHTML= this.value;
+                            }
+                        })(i);
+                    }
+                },
+                //编号搜索书籍信息
+                numSerach: function() {
+                    var searchBox = document.getElementsByName("search")[0],
+                        rightUl = doc.getElementById("right");
+                    searchBox.onchange = function() {
+                        if(searchBox.value!=null) {
+                            var bookNum =searchBox.value;
+                            ajax.ajaxGet("/web/BookSelectbookNumServlet?bookNum="+bookNum,function(data){
+                                data = JSON.parse(data);
+                                console.log(data);
+                                aLis.bookNum.innerHTML = data["bookNum"];
+                                aLis.bookName.innerHTML = data["bookName"];
+                                aLis.smallClassNum.innerHTML = data["smallClassNum"];
+                                aLis.pubNum.innerHTML = data["pubNum"];
+                                aLis.version.innerHTML = data["version"];
+                                aLis.vipPrice.innerHTML = data["vipPrice"];
+                                aLis.noVipPrice.innerHTML = data["noVipPrice"];
+                                aLis.writerName.innerHTML = data["name"];
+                                aLis.translatorName.innerHTML =data["part"];
+                                this.inputM();
+                            }.bind(this))
+                        }
+                    }.bind(this)
+                },
+                // 提交更改项
+                upChange: function() {
+                    var sub = document.getElementsByName("sub")[0],
+                        bookNum = aLis.bookNum.innerHTML,
+                        bookName = aLis.bookName.innerHTML,
+                        bsClassName = aLis.smallClassNum.innerHTML,
+                        pubNum = aLis.pubNum.innerHTML,
+                        version = aLis.version.innerHTML,
+                        vipPrice = aLis.vipPrice.innerHTML,
+                        noVipPrice = aLis.noVipPrice.innerHTML,
+                        writerName = aLis.writerName.innerHTML,
+                        translatorName = aLis.translatorName.innerHTML,
+                        rightUl = doc.getElementById("right");
+                    sub.onclick = function() {
+                        rightUl.style.width = "0";
+                        ajax.ajaxPost("/web/BookUpdateServlet","bookNum="+bookNum+"&bookName"+bookName+"&bsClassName"+bsClassName+"&PubName"+pubNum+"&version"+version+"&vipPrice"+vipPrice+"&noVipPrice"+noVipPrice+"&writer0"+writerName+"&translator0"+translatorName,function(data) {
+                            console.log(data);
+                            switch(data) {
+                                case "success":
+                                    console.log("插入成功");
+                                    break;
+                                case "fail":
+                                    console.log("插入失败");
+                                    break;
+                            }
+                        })
+                    }
+                },
+            }
+            var updateBook = new UpdateBook();
+        })();
+    </script>
+</body>
+</html>
